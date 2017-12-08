@@ -1,4 +1,5 @@
 const test = require('ava');
+const promClient = require('prom-client');
 const dedent = require('dedent');
 const genericPool = require('generic-pool');
 const poolExporter = require('../lib');
@@ -14,8 +15,10 @@ const resourceFactory = {
 
 let pool;
 let exporter;
+let register;
 
 test.beforeEach(() => {
+  register = new promClient.Registry();
   pool = genericPool.createPool(resourceFactory, {
     max: 3,
     min: 2
@@ -27,10 +30,10 @@ test.afterEach.always(() => {
 });
 
 test.serial('tracks pool size', async t => {
-  exporter = poolExporter(pool);
+  exporter = poolExporter(pool, { register });
 
   t.deepEqual(
-    exporter.registry.metrics(),
+    register.metrics(),
     dedent`
       # HELP pool_min_total min size of the pool
       # TYPE pool_min_total gauge
@@ -69,7 +72,7 @@ test.serial('tracks pool size', async t => {
   exporter.observe();
 
   t.deepEqual(
-    exporter.registry.metrics(),
+    register.metrics(),
     dedent`
       # HELP pool_min_total min size of the pool
       # TYPE pool_min_total gauge
@@ -110,7 +113,7 @@ test.serial('tracks pool size', async t => {
   exporter.observe();
 
   t.deepEqual(
-    exporter.registry.metrics(),
+    register.metrics(),
     dedent`
       # HELP pool_min_total min size of the pool
       # TYPE pool_min_total gauge

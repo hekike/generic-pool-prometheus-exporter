@@ -15,39 +15,43 @@ Create pool exporter
 
 -   `pool` **Pool**  generic-pool instance
 -   `opts` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** options
+    -   `opts.register` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** register to use
+    -   `opts.prefix` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** metric name prefix (optional, default `"pool_"`)
     -   `opts.interval` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** pool info update interval,
          set to `null` to disable and call `exporter.observe()` manually (optional, default `10000`)
     -   `opts.minName` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** name of the min size of
-         the pool metric (optional, default `"pool_min_total"`)
+         the pool metric (optional, default `"min_total"`)
     -   `opts.maxName` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** name of the max size of
-         the pool metric (optional, default `"pool_max_total"`)
+         the pool metric (optional, default `"max_total"`)
     -   `opts.sizeName` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** name of the number of
-         resources that are currently acquired metric (optional, default `"pool_size_total"`)
-    -   `opts.spareResourceCapacityName` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** name of the number of resources the pool could create before hitting any limits (optional, default `"pool_spare_resource_capacity_total"`)
+         resources that are currently acquired metric (optional, default `"size_total"`)
+    -   `opts.spareResourceCapacityName` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** name of the number of resources the pool could create before hitting any limits (optional, default `"spare_resource_capacity_total"`)
     -   `opts.availableName` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** name of the
-         number of unused resources in the pool (optional, default `"pool_available_total"`)
+         number of unused resources in the pool (optional, default `"available_total"`)
     -   `opts.borrowedName` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** name of the
-         number of resources that are currently acquired by userland code (optional, default `"pool_borrowed_total"`)
+         number of resources that are currently acquired by userland code (optional, default `"borrowed_total"`)
     -   `opts.pendingName` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** name of the number
-         of callers waiting to acquire a resource (optional, default `"pool_pending_total"`)
+         of callers waiting to acquire a resource (optional, default `"pending_total"`)
 
 **Examples**
 
 _With `generic-pool` (node-pool)_
 
 ```javascript
+const promClient = require('prom-client');
 const pool = require('generic-pool');
 const poolExporter = require('generic-pool-prometheus-exporter');
 
 const myPool = genericPool.createPool({ ... }, { min 1, max: 5 });
 const exporter = poolExporter(myPool);
 
-// exporter.registry.metrics()
+console.log(promClient.register.metrics())
 // exporter.registry.off()
 ```
 
 ```javascript
 <caption>With manual observe
+const promClient = require('prom-client');
 const pool = require('generic-pool');
 const poolExporter = require('generic-pool-prometheus-exporter');
 
@@ -55,14 +59,15 @@ const myPool = genericPool.createPool({ ... }, { min 1, max: 5 });
 const exporter = poolExporter(myPool, { interval: null });
 
 // exporter.observe();
-// exporter.registry.metrics()
+console.log(promClient.register.metrics())
 // exporter.observe();
-// exporter.registry.metrics()
+console.log(promClient.register.metrics())
 ```
 
 _With `knex`_
 
 ```javascript
+const promClient = require('prom-client');
 const Knex = require('knex');
 const poolExporter = require('generic-pool-prometheus-exporter');
 
@@ -72,7 +77,7 @@ const knex = Knex({
 });
 const exporter = poolExporter(knex);
 
-console.log(exporter.registry.metrics())
+console.log(promClient.register.metrics())
 // =>
 // # HELP pool_min_total min size of the pool
 // # TYPE pool_min_total gauge
@@ -103,4 +108,4 @@ console.log(exporter.registry.metrics())
 // pool_pending_total 0
 ```
 
-Returns **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** exporter { registry, off, observe }
+Returns **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** exporter { off, observe }
