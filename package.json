@@ -1,6 +1,6 @@
 {
   "name": "generic-pool-prometheus-exporter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "generic-pool Prometheus exporter",
   "keywords": [
     "prometheus",
