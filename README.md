@@ -36,7 +36,7 @@ Create pool exporter
 _With `generic-pool` (node-pool)_
 
 ```javascript
-const pool = require('generic-pool);
+const pool = require('generic-pool');
 const poolExporter = require('generic-pool-prometheus-exporter');
 
 const myPool = genericPool.createPool({ ... }, { min 1, max: 5 });
@@ -48,7 +48,7 @@ const exporter = poolExporter(myPool);
 
 ```javascript
 <caption>With manual observe
-const pool = require('generic-pool);
+const pool = require('generic-pool');
 const poolExporter = require('generic-pool-prometheus-exporter');
 
 const myPool = genericPool.createPool({ ... }, { min 1, max: 5 });
