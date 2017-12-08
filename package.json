@@ -1,0 +1,53 @@
+{
+  "name": "generic-pool-prometheus-exporter",
+  "version": "0.0.0",
+  "description": "generic-pool Prometheus exporter",
+  "keywords": [
+    "prometheus",
+    "exporter",
+    "pool",
+    "generic-pool",
+    "node-pool",
+    "knex"
+  ],
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "cover": "nyc --reporter=text npm run test",
+    "document": "./node_modules/.bin/documentation build lib -f md",
+    "prettier": "prettier --write './lib/**/*.js'",
+    "test": "ava ./test/**/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hekike/generic-pool-prometheus-exporter.git"
+  },
+  "author": "Peter Marton",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hekike/generic-pool-prometheus-exporter/issues"
+  },
+  "homepage": "https://github.com/hekike/generic-pool-prometheus-exporter#readme",
+  "dependencies": {},
+  "peerDependencies": {
+    "prom-client": "10.x"
+  },
+  "devDependencies": {
+    "ava": "0.24.0",
+    "dedent": "0.7.0",
+    "documentation": "5.3.3",
+    "eslint": "4.12.1",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-config-prettier": "2.9.0",
+    "eslint-plugin-ava": "4.3.0",
+    "eslint-plugin-import": "2.8.0",
+    "eslint-plugin-jsdoc": "3.2.0",
+    "eslint-plugin-prettier": "2.3.1",
+    "generic-pool": "3.2.0",
+    "nyc": "11.3.0",
+    "prettier": "1.8.2",
+    "prom-client": "10.2.2"
+  }
+}
