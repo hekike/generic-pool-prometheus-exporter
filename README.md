@@ -1,5 +1,7 @@
 # generic-pool-prometheus-exporter
 
+[![Build Status](https://travis-ci.org/hekike/generic-pool-prometheus-exporter.svg?branch=master)](https://travis-ci.org/hekike/generic-pool-prometheus-exporter)
+
 Prometheus exporter for the [generic-pool](https://github.com/coopernurse/node-pool)
 `npm` package that's used by [knex](https://www.npmjs.com/package/knex).
 
