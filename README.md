@@ -44,19 +44,6 @@ Create pool exporter
     -   `opts.prefix` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** metric name prefix (optional, default `"pool_"`)
     -   `opts.interval` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** pool info update interval,
          set to `null` to disable and call `exporter.observe()` manually (optional, default `10000`)
-    -   `opts.minName` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** name of the min size of
-         the pool metric (optional, default `"min_total"`)
-    -   `opts.maxName` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** name of the max size of
-         the pool metric (optional, default `"max_total"`)
-    -   `opts.sizeName` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** name of the number of
-         resources that are currently acquired metric (optional, default `"size_total"`)
-    -   `opts.spareResourceCapacityName` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** name of the number of resources the pool could create before hitting any limits (optional, default `"spare_resource_capacity_total"`)
-    -   `opts.availableName` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** name of the
-         number of unused resources in the pool (optional, default `"available_total"`)
-    -   `opts.borrowedName` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** name of the
-         number of resources that are currently acquired by userland code (optional, default `"borrowed_total"`)
-    -   `opts.pendingName` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** name of the number
-         of callers waiting to acquire a resource (optional, default `"pending_total"`)
 
 **Examples**
 
