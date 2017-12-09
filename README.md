@@ -23,6 +23,18 @@ Create pool exporter
      userland code
 -   `{type=pending}` number of callers waiting to acquire a resource
 
+**Metrics:**
+
+    # HELP pool_size_total Size of the pool
+    # TYPE pool_size_total gauge
+    pool_size_total{type="min"} 2
+    pool_size_total{type="max"} 3
+    pool_size_total{type="acquired"} 1
+    pool_size_total{type="spare_capacity"} 2
+    pool_size_total{type="available"} 0
+    pool_size_total{type="borrowed"} 1
+    pool_size_total{type="pending"} 0
+
 **Parameters**
 
 -   `pool` **Pool**  generic-pool instance
