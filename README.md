@@ -11,11 +11,24 @@ Prometheus exporter for the [generic-pool](https://github.com/coopernurse/node-p
 
 Create pool exporter
 
+**Types:**
+
+-   `{type=min}` min size of the pool
+-   `{type=max}` size of the pool
+-   `{type=acquired}` number of resources that are currently acquired
+-   `{type=spare_capacity}` number of resources the pool could create before
+     hitting any limits
+-   `{type=available}` number of unused resources in the pool
+-   `{type=borrowed}` number of resources that are currently acquired by
+     userland code
+-   `{type=pending}` number of callers waiting to acquire a resource
+
 **Parameters**
 
 -   `pool` **Pool**  generic-pool instance
 -   `opts` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** options
     -   `opts.register` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** register to use
+    -   `opts.labels` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** extra labels (optional, default `{}`)
     -   `opts.prefix` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** metric name prefix (optional, default `"pool_"`)
     -   `opts.interval` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** pool info update interval,
          set to `null` to disable and call `exporter.observe()` manually (optional, default `10000`)
@@ -79,33 +92,15 @@ const exporter = poolExporter(knex);
 
 console.log(promClient.register.metrics())
 // =>
-// # HELP pool_min_total min size of the pool
-// # TYPE pool_min_total gauge
-// pool_min_total 2
-
-// # HELP pool_max_total max size of the pool
-// # TYPE pool_max_total gauge
-// pool_max_total 3
-
-// # HELP pool_size_total number of resources that are currently acquired
+// # HELP pool_size_total Size of the pool
 // # TYPE pool_size_total gauge
-// pool_size_total 1
-
-// # HELP pool_spare_resource_capacity_total number of resources the pool could create before hitting any limits
-// # TYPE pool_spare_resource_capacity_total gauge
-// pool_spare_resource_capacity_total 2
-
-// # HELP pool_available_total number of unused resources in the pool
-// # TYPE pool_available_total gauge
-// pool_available_total 0
-
-// # HELP pool_borrowed_total number of resources that are currently acquired by userland code
-// # TYPE pool_borrowed_total gauge
-// pool_borrowed_total 1
-
-// # HELP pool_pending_total number of callers waiting to acquire a resource
-// # TYPE pool_pending_total
-// pool_pending_total 0
+// pool_size_total{type="min"} 2
+// pool_size_total{type="max"} 3
+// pool_size_total{type="acquired"} 1
+// pool_size_total{type="spare_capacity"} 2
+// pool_size_total{type="available"} 0
+// pool_size_total{type="borrowed"} 1
+// pool_size_total{type="pending"} 0
 ```
 
 Returns **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** exporter { off, observe }

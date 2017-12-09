@@ -35,33 +35,15 @@ test.serial('tracks pool size', async t => {
   t.deepEqual(
     register.metrics(),
     dedent`
-      # HELP pool_min_total min size of the pool
-      # TYPE pool_min_total gauge
-      pool_min_total 2
-
-      # HELP pool_max_total max size of the pool
-      # TYPE pool_max_total gauge
-      pool_max_total 3
-
-      # HELP pool_size_total number of resources that are currently acquired
+      # HELP pool_size_total Size of the pool
       # TYPE pool_size_total gauge
-      pool_size_total 2
-
-      # HELP pool_spare_resource_capacity_total number of resources the pool could create before hitting any limits
-      # TYPE pool_spare_resource_capacity_total gauge
-      pool_spare_resource_capacity_total 1
-
-      # HELP pool_available_total number of unused resources in the pool
-      # TYPE pool_available_total gauge
-      pool_available_total 0
-
-      # HELP pool_borrowed_total number of resources that are currently acquired by userland code
-      # TYPE pool_borrowed_total gauge
-      pool_borrowed_total 0
-
-      # HELP pool_pending_total number of callers waiting to acquire a resource
-      # TYPE pool_pending_total gauge
-      pool_pending_total 0\n
+      pool_size_total{type="min"} 2
+      pool_size_total{type="max"} 3
+      pool_size_total{type="acquired"} 2
+      pool_size_total{type="spare_capacity"} 1
+      pool_size_total{type="available"} 0
+      pool_size_total{type="borrowed"} 0
+      pool_size_total{type="pending"} 0\n
     `
   );
 
@@ -74,33 +56,15 @@ test.serial('tracks pool size', async t => {
   t.deepEqual(
     register.metrics(),
     dedent`
-      # HELP pool_min_total min size of the pool
-      # TYPE pool_min_total gauge
-      pool_min_total 2
-
-      # HELP pool_max_total max size of the pool
-      # TYPE pool_max_total gauge
-      pool_max_total 3
-
-      # HELP pool_size_total number of resources that are currently acquired
+      # HELP pool_size_total Size of the pool
       # TYPE pool_size_total gauge
-      pool_size_total 3
-
-      # HELP pool_spare_resource_capacity_total number of resources the pool could create before hitting any limits
-      # TYPE pool_spare_resource_capacity_total gauge
-      pool_spare_resource_capacity_total 0
-
-      # HELP pool_available_total number of unused resources in the pool
-      # TYPE pool_available_total gauge
-      pool_available_total 0
-
-      # HELP pool_borrowed_total number of resources that are currently acquired by userland code
-      # TYPE pool_borrowed_total gauge
-      pool_borrowed_total 3
-
-      # HELP pool_pending_total number of callers waiting to acquire a resource
-      # TYPE pool_pending_total gauge
-      pool_pending_total 0\n
+      pool_size_total{type="min"} 2
+      pool_size_total{type="max"} 3
+      pool_size_total{type="acquired"} 3
+      pool_size_total{type="spare_capacity"} 0
+      pool_size_total{type="available"} 0
+      pool_size_total{type="borrowed"} 3
+      pool_size_total{type="pending"} 0\n
     `
   );
 
@@ -115,33 +79,38 @@ test.serial('tracks pool size', async t => {
   t.deepEqual(
     register.metrics(),
     dedent`
-      # HELP pool_min_total min size of the pool
-      # TYPE pool_min_total gauge
-      pool_min_total 2
-
-      # HELP pool_max_total max size of the pool
-      # TYPE pool_max_total gauge
-      pool_max_total 3
-
-      # HELP pool_size_total number of resources that are currently acquired
+      # HELP pool_size_total Size of the pool
       # TYPE pool_size_total gauge
-      pool_size_total 1
+      pool_size_total{type="min"} 2
+      pool_size_total{type="max"} 3
+      pool_size_total{type="acquired"} 1
+      pool_size_total{type="spare_capacity"} 2
+      pool_size_total{type="available"} 0
+      pool_size_total{type="borrowed"} 1
+      pool_size_total{type="pending"} 0\n
+    `
+  );
+});
 
-      # HELP pool_spare_resource_capacity_total number of resources the pool could create before hitting any limits
-      # TYPE pool_spare_resource_capacity_total gauge
-      pool_spare_resource_capacity_total 2
+test.serial('respects name and labels options', t => {
+  exporter = poolExporter(pool, {
+    register,
+    labels: { foo: 'bar' },
+    name: 'my_pool_size_total'
+  });
 
-      # HELP pool_available_total number of unused resources in the pool
-      # TYPE pool_available_total gauge
-      pool_available_total 0
-
-      # HELP pool_borrowed_total number of resources that are currently acquired by userland code
-      # TYPE pool_borrowed_total gauge
-      pool_borrowed_total 1
-
-      # HELP pool_pending_total number of callers waiting to acquire a resource
-      # TYPE pool_pending_total gauge
-      pool_pending_total 0\n
+  t.deepEqual(
+    register.metrics(),
+    dedent`
+      # HELP my_pool_size_total Size of the pool
+      # TYPE my_pool_size_total gauge
+      my_pool_size_total{type="min",foo="bar"} 2
+      my_pool_size_total{type="max",foo="bar"} 3
+      my_pool_size_total{type="acquired",foo="bar"} 2
+      my_pool_size_total{type="spare_capacity",foo="bar"} 1
+      my_pool_size_total{type="available",foo="bar"} 0
+      my_pool_size_total{type="borrowed",foo="bar"} 0
+      my_pool_size_total{type="pending",foo="bar"} 0\n
     `
   );
 });
