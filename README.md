@@ -40,8 +40,8 @@ Create pool exporter
 -   `pool` **Pool**  generic-pool instance
 -   `opts` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** options
     -   `opts.register` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** register to use
+    -   `opts.name` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** metrics name (optional, default `"pool_size_total"`)
     -   `opts.labels` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** extra labels (optional, default `{}`)
-    -   `opts.prefix` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** metric name prefix (optional, default `"pool_"`)
     -   `opts.interval` **[Number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** pool info update interval,
          set to `null` to disable and call `exporter.observe()` manually (optional, default `10000`)
 
